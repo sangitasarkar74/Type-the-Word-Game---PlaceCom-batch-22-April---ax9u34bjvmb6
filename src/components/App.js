@@ -9,15 +9,15 @@ function App() {
   const [userInput, setUserInput] = useState("");
   const [result, setResult] = useState("");
   const [index, setIndex] = useState(0);
-  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowForm(true);
+      setFlashWord(false);
+      // console.log("hello");
       // setWord(false);
-    }, 5000);
+    }, 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [flashWord]);
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
@@ -25,24 +25,27 @@ function App() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (userInput === word) {
-      console.log("won");
-      setFlashWord("You Won!");
+    if (userInput === WORD_LIST[index]) {
+      // console.log("won");
+      setResult("You Won!");
     } else {
-      console.log("lost");
-      setFlashWord("You Lost!");
+      // console.log("lost");
+      setResult("You Lost!");
     }
+  };
+
+  const handleRestartClick = () => {
+    setIndex((index) => index + 1);
+    setFlashWord(true);
+    setUserInput("");
+    setResult(null);
   };
   return (
     <div className="mini-game-container">
       <h2 className="mini-game-title">Mini Game</h2>
-      <p
-        className="mini-game-word"
-        style={{ display: setShowForm ? "none" : "block" }}
-      >
-        {word}
-      </p>
-      {setShowForm && (
+      {flashWord ? (
+        <p className="mini-game-word">{WORD_LIST[index]}</p>
+      ) : (
         <form className="mini-game-form" onSubmit={handleFormSubmit}>
           <input
             className="mini-game-input"
@@ -55,11 +58,15 @@ function App() {
           </button>
         </form>
       )}
-      <p>{flashWord}</p>
+
+      {/* <p>{flashWord}</p> */}
       {result && (
         <>
-          <p class="mini-game-result">{result}</p>
-          <button class="mini-game-restart-button" onClick={handleRestartClick}>
+          <p className="mini-game-result">{result}</p>
+          <button
+            className="mini-game-restart-button"
+            onClick={handleRestartClick}
+          >
             Restart
           </button>
         </>
