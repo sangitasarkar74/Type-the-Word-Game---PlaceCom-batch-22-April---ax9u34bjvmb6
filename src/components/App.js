@@ -27,10 +27,10 @@ function App() {
     e.preventDefault();
     if (userInput === WORD_LIST[index]) {
       // console.log("won");
-      setResult("You Won!");
+      setResult("You won!");
     } else {
       // console.log("lost");
-      setResult("You Lost!");
+      setResult("You lost!");
     }
   };
 
